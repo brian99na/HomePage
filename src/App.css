@@ -1,38 +1,69 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;300;400;500;900&display=swap');
+* {
+  padding: 0;
+  margin: 0;
+  font-family: 'Montserrat', sans-serif;
+  color: white;
+}
+
 .App {
-  text-align: center;
+  height: 100vh;
+  background-size: cover;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-position: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.weatherJsxUpper {
+  height: 33.33vh;
+  width: 80vw;
+  display: flex;
+  justify-content: flex-end;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.weatherMain {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.weatherDetails1 {
+  display: flex;
+  flex-direction: column;
+  font-size: 7px;
+}
+
+.weatherTemp {
+  font-size: 38px;
+}
+
+
+.titleUpper {
+  height: 33.33vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  width: 100%;
 }
 
-.App-link {
-  color: #61dafb;
+.titleTime {
+  font-size: 100px;
+  backdrop-filter: blur(5px);
+  width: 35%;
+  text-align: center;
+  border-radius: 10px 10px 0 0;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.titleText {
+  text-align: center;
+  width: 35%;
+  font-size: 70px;
+  font-weight: 500;
+  border-radius: 0 0 10px 10px;
+}
+
+.titleTextBg {
+  background-color: black;
 }
