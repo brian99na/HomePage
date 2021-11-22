@@ -129,20 +129,22 @@ function App() {
   const weatherLink = weatherData && `https://www.google.com/search?q=${weatherData.name}+weather`
 
   const weatherJsx = (weatherData && weatherIcon && weatherData.main) &&
-  <a href={weatherLink} target='_blank' rel="noreferrer" className='weatherMain'>
+  <<a href={weatherLink}>className='weatherMain'>
     <div>
         <img className='weatherIcon' src={weatherIcon} alt='weather_icon'/>
     </div>
-    <div className='weatherDetails1'>
-      <h2 className='weatherTemp'>{weatherData.main.temp.toFixed()}°F</h2>
-      <h2>{weatherData.weather[0].description}</h2>
-    </div>
-  </a>
+    
+      <div className='weatherDetails1'>
+        <h2 className='weatherTemp'>{weatherData.main.temp.toFixed()}°F</h2>
+        <h2>{weatherData.weather[0].description}</h2>
+      </div>
+    </a>
+  </div>
 
   const unsplashJsx = (unsplash.data && unsplash.data.links) &&
   <div className='quoteUnder'>
     <a href={unsplash.data.links.html}>
-      {unsplash.data.location.name ? <h1>{unsplash.data.location.name}</h1> : <h1>Full picture here</h1>}
+      <h1>{unsplash.data.location.name}</h1>
     </a>
   </div>
 

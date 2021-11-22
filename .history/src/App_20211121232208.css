@@ -123,9 +123,8 @@ a {
 
 @media only screen and (max-width: 1024px) {
   .titleUpper h1 {
-    font-size: 60px;
+    font-size: 70px;
     padding: 10px;
-    width: 100%;
   }
 }
 

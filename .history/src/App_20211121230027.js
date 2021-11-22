@@ -142,7 +142,7 @@ function App() {
   const unsplashJsx = (unsplash.data && unsplash.data.links) &&
   <div className='quoteUnder'>
     <a href={unsplash.data.links.html}>
-      {unsplash.data.location.name ? <h1>{unsplash.data.location.name}</h1> : <h1>Full picture here</h1>}
+      {unsplash.data.location.name ? <h1>{unsplash.data.location.name}</h1>}
     </a>
   </div>
 

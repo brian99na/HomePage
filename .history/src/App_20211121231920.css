@@ -121,15 +121,7 @@ a {
 
 }
 
-@media only screen and (max-width: 1024px) {
-  .titleUpper h1 {
-    font-size: 60px;
-    padding: 10px;
-    width: 100%;
-  }
-}
-
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 700px) {
   .titleUpper h1 {
     font-size: 40px;
     padding: 10px;
@@ -156,6 +148,8 @@ a {
     width: 100%;
     text-align: center;
     backdrop-filter: blur(5px);
+    border-radius: 0;
+
   }
 
   .weatherMain {
@@ -167,6 +161,8 @@ a {
 
   .weatherJsxUpper {
     width: 100%;
+    border-radius: 0;
+
   }
 
   .weatherIcon {
@@ -175,5 +171,7 @@ a {
 
   .weatherDetails1 {
     padding: 0;
+    border-radius: 0;
+
   }
 }

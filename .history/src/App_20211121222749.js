@@ -53,12 +53,12 @@ function App() {
       if (Number(time.split(':').join('')) > 1800 || Number(time.split(':').join('')) < 600){
         dayNight = 'n'
       }
-      if (weatherId.slice(0,1) === 5) {
-        setWeatherIcon(`http://openweathermap.org/img/wn/${five[weatherId.slice(1,2)]}${dayNight}@4x.png`)
-      } else if (weatherId.slice(0,1) === 8) {
-        setWeatherIcon(`http://openweathermap.org/img/wn/${eight[weatherId.slice(2,3)]}${dayNight}@4x.png`)
+      if (weatherId.slice(0,1) == 5) {
+        setWeatherIcon(`http://openweathermap.org/img/wn/${five[weatherId.slice(1,2)]}${dayNight}@2x.png`)
+      } else if (weatherId.slice(0,1) == 8) {
+        setWeatherIcon(`http://openweathermap.org/img/wn/${eight[weatherId.slice(2,3)]}${dayNight}@2x.png`)
       } else {
-        setWeatherIcon(`http://openweathermap.org/img/wn/${weatherObject[weatherId.slice(0,1)]}${dayNight}@4x.png`)
+        setWeatherIcon(`http://openweathermap.org/img/wn/${weatherObject[weatherId.slice(0,1)]}${dayNight}@2x.png`)
       }
     }
   }
@@ -126,10 +126,8 @@ function App() {
     return () => clearInterval(interval)
   }, [])
 
-  const weatherLink = weatherData && `https://www.google.com/search?q=${weatherData.name}+weather`
-
   const weatherJsx = (weatherData && weatherIcon && weatherData.main) &&
-  <a href={weatherLink} target='_blank' rel="noreferrer" className='weatherMain'>
+  <div className='weatherMain'>
     <div>
         <img className='weatherIcon' src={weatherIcon} alt='weather_icon'/>
     </div>
@@ -137,18 +135,15 @@ function App() {
       <h2 className='weatherTemp'>{weatherData.main.temp.toFixed()}°F</h2>
       <h2>{weatherData.weather[0].description}</h2>
     </div>
-  </a>
+  </div>
 
   const unsplashJsx = (unsplash.data && unsplash.data.links) &&
-  <div className='quoteUnder'>
-    <a href={unsplash.data.links.html}>
-      {unsplash.data.location.name ? <h1>{unsplash.data.location.name}</h1> : <h1>Full picture here</h1>}
-    </a>
-  </div>
+  <a href={unsplash.data.links.html}>
+    <h1>{unsplash.data.location.name}</h1>
+  </a>
 
   // console.log(userCoordinates)
   console.log(weatherIcon)
-  console.log(weatherData)
 
   const titleBackColor = (title === 'Good night') ? 'rgb(29, 38, 53)' : null
 

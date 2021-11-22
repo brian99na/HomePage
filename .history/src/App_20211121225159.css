@@ -10,6 +10,13 @@ a {
   text-decoration: none;
 }
 
+a:hover {
+  background-color: rgb(204, 204, 204, 0.2);
+  padding: 1em;
+  transform: scale(1.05)
+  border-radius: 10px;
+}
+
 .App {
   height: 100vh;
   background-size: cover;
@@ -32,16 +39,7 @@ a {
   justify-content: center;
   align-items: center;
   height: fit-content;
-  backdrop-filter: blur(0px);
-  transition: 0.5s ease-in-out;
-  border-radius: 20px;
-  border: 1px solid rgb(240, 240, 240);
-  transform: scale(1);
-}
-
-.weatherMain:hover {
-  backdrop-filter: blur(5px);
-  transform: scale(1.02);
+  backdrop-filter: blur(15px);
 }
 
 .weatherDetails1 {
@@ -101,35 +99,17 @@ a {
   justify-content: center;
   align-items: center;
   border-radius: 10px;
+
 }
 
 .quoteUnder a {
   padding: 1em;
-  backdrop-filter: blur(0px);
+  backdrop-filter: blur(5px);
   border-radius: 10px;
   width: 50%;
-  border: 1px solid rgb(240, 240, 240);
-  transition: 0.5s ease-in-out;
 }
 
-.quoteUnder a:hover {
-  background-color: rgb(204, 204, 204, 0.2);
-  padding: 1em;
-  transform: scale(1.03);
-  border-radius: 10px;
-  backdrop-filter: blur(5px);
-
-}
-
-@media only screen and (max-width: 1024px) {
-  .titleUpper h1 {
-    font-size: 60px;
-    padding: 10px;
-    width: 100%;
-  }
-}
-
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 700px) {
   .titleUpper h1 {
     font-size: 40px;
     padding: 10px;
@@ -143,37 +123,4 @@ a {
     justify-content: center;
   }
 
-  .quoteUnder {
-    width: 100%;
-  }
-
-  .titleUpper {
-    flex-direction: row;
-  }
-
-  .quoteUnder a {
-    border: none;
-    width: 100%;
-    text-align: center;
-    backdrop-filter: blur(5px);
-  }
-
-  .weatherMain {
-    border: none;
-    backdrop-filter: blur(35px);
-    border-radius: 0;
-    width: 100%;
-  }
-
-  .weatherJsxUpper {
-    width: 100%;
-  }
-
-  .weatherIcon {
-    width: 70%;
-  }
-
-  .weatherDetails1 {
-    padding: 0;
-  }
 }
