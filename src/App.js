@@ -85,6 +85,7 @@ function App() {
     };
     setDimensions()
     quoteApiCall()
+    document.title = "Hi"
   }, [])
 
   useEffect(() => {
