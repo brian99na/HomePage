@@ -68,7 +68,6 @@ function App() {
 
   const titleFunction = () => {
     let timeNum = Number(time.slice(0, 2))
-    console.log(timeNum)
     if (timeNum >= 18 || timeNum < 5) {
       setTitle('Good night')
     } else if (timeNum >= 5 & timeNum < 12) {
@@ -81,10 +80,12 @@ function App() {
   const localDataCreate = () => {
     if (localStorage.getItem('data') == null) {
       localStorage.setItem('data', [])
-    }
-
+    } 
     let prevData = JSON.parse(localStorage.getItem('data'))
-    prevData.push(modalValue)
+    console.log(prevData)
+    let stringifyValues = JSON.stringify(modalValue)
+    prevData.push(stringifyValues)
+    console.log(prevData)
 
     localStorage.setItem('data', JSON.stringify(prevData))
   }

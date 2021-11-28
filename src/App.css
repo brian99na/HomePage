@@ -200,7 +200,7 @@ a {
   left: 0;
   bottom: 0;
   position: fixed;
-  background-color: rgba(151, 151, 151, 0.8);
+  background-color: rgba(103, 140, 184, 0.6);
 }
 @media only screen and (max-width: 1024px) {
   .titleUpper h1 {
