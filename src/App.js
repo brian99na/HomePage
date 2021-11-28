@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import './App.css';
-require('dotenv').config()
+import { AiOutlinePlusSquare } from 'react-icons/ai';
+require('dotenv').config();
 
 function App() {
   const [userCoordinates, setUserCoordinates] = useState({})
@@ -14,6 +15,8 @@ function App() {
   const [title, setTitle] = useState('')
   const [timeConvert, setTimeConvert] = useState('')
   const [quote, setQuote] = useState([])
+  const [modal, setModal] = useState(false)
+  const [modalValue, setModalValue] = useState({site: '', name: ''})
 
   const weatherObject = { 2: "11", 3: "09", 5: "10", 6: "13", 7: "50", 8: "01" }
   const five = { 0: "10", 1: "13", 2: "09", 3: "09" }
@@ -73,6 +76,31 @@ function App() {
     } else if (timeNum >= 12 & timeNum < 18) {
       setTitle('Good afternoon')
     }
+  }
+
+  const localDataCreate = () => {
+    if (localStorage.getItem('data') == null) {
+      localStorage.setItem('data', [])
+    }
+
+    let prevData = JSON.parse(localStorage.getItem('data'))
+    prevData.push(modalValue)
+
+    localStorage.setItem('data', JSON.stringify(prevData))
+  }
+
+  const handleModal = () => {
+    setModal(!modal)
+  }
+
+  const handleModalSubmit = (e) => {
+    e.preventDefault();
+    localDataCreate();
+    setModalValue({site: '', name: ''});
+  }
+
+  const modalChange = (e) => {
+    setModalValue({...modalValue, [e.target.name]: e.target.value})
   }
 
   useEffect(() => {
@@ -142,19 +170,35 @@ function App() {
 
   const unsplashJsx = (unsplash.data && unsplash.data.links) &&
   <div className='quoteUnder'>
-    <a href={unsplash.data.links.html}>
+    <a href={unsplash.data.links.html} target='_blank' rel="noreferrer">
       {unsplash.data.location.name ? <h1>{unsplash.data.location.name}</h1> : <h1>Full picture here</h1>}
     </a>
   </div>
 
-  // console.log(userCoordinates)
-  console.log(weatherIcon)
-  console.log(weatherData)
+  console.log(modalValue)
+
+  const modalJsx = 
+  <div className='modalUpper'>
+    <div onClick={handleModal} className='modal-overlay'></div>
+    <div className='modalMain'>
+      <form onSubmit={handleModalSubmit}>
+        <h1>Add a link to your favorite site</h1>
+        <input onChange={modalChange} value={modalValue.site} name='site' className='modalSiteInput' placeholder='ex. https://www.youtube.com/'/>
+        <h1>Shortcut name</h1>
+        <input onChange={modalChange} value={modalValue.name} name='name' className='modalNameInput' placeholder='ex. Google Docs'/>
+        <div className='buttonsDiv'>
+          <button type='submit'>Submit</button>
+          <button onClick={handleModal}>Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  console.log(localStorage.getItem('data'))
+
+  // const linkArrayJsx = (localStorage.getItem('data') !== null) && localStorage.getItem('data').map(item)
 
   const titleBackColor = (title === 'Good night') ? 'rgb(29, 38, 53)' : null
-
-  console.log(unsplash.data)
-  console.log(quote)
 
   return (
     <div style={{ backgroundImage: `url(${unsplash.url})` }} className="App">
@@ -167,7 +211,11 @@ function App() {
       </div>
       <div className='quoteUpper'>
         {unsplashJsx}
+        <div className='siteDiv'>
+          <AiOutlinePlusSquare onClick={handleModal} className='modalAddBtn' />
+        </div>
       </div>
+      {modal && modalJsx}
     </div>
   );
 }
