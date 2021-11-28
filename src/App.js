@@ -114,7 +114,7 @@ function App() {
     };
     setDimensions()
     quoteApiCall()
-    document.title = "Hi"
+    document.title = "Welcome!"
   }, [])
 
   useEffect(() => {
@@ -155,6 +155,10 @@ function App() {
     }, 1000)
     return () => clearInterval(interval)
   }, [])
+
+  console.log(weatherData)
+  console.log(unsplash.data)
+
 
   const weatherLink = weatherData && `https://www.google.com/search?q=${weatherData.name}+weather`
 
