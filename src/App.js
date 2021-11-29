@@ -38,13 +38,6 @@ function App() {
     .then(data => setUnsplash({url: data.urls.raw, data: data}))
   }
 
-  const quoteApiCall = () => {
-    fetch('https://zenquotes.io/api/today')
-    .then(res => res.json())
-    .then(data => setQuote(data))
-    .catch((err) => console.log(err))
-  }
-
   const setDimensions = () => {
     if (Number(window.innerWidth > window.innerHeight)) {
       setUnsplashOrientation('landscape')
@@ -133,7 +126,6 @@ function App() {
       console.log("Not Available");
     };
     setDimensions()
-    quoteApiCall()
     document.title = "Welcome!"
     setLocalStorageArr(JSON.parse(localStorage.getItem('linkArr')))
   }, [])
@@ -214,7 +206,7 @@ function App() {
     </div>
   </div>
 
-  const linkArrayJsx = localStorageArr.map((item, index) => {
+  const linkArrayJsx = localStorageArr && localStorageArr.map((item, index) => {
     let siteIcon = `https://www.google.com/s2/favicons?sz=64&domain_url=${item.site}`
     return(
       <a onMouseEnter={linkHover} onMouseLeave={linkLeave} className='linksMain' key={item.name + index} href={item.site} target='_blank' rel='noreferrer'>
