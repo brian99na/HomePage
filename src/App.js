@@ -231,7 +231,7 @@ function App() {
       <div className='quoteUpper'>
         {unsplashJsx}
         <div className='siteDiv'>
-          {(linkArrayJsx.length <= 5) && <AiOutlinePlusSquare onClick={handleModal} className='modalAddBtn' />}
+          {(linkArrayJsx && (linkArrayJsx.length <= 5)) && <AiOutlinePlusSquare onClick={handleModal} className='modalAddBtn' />}
           {linkArrayJsx}
         </div>
       </div>
