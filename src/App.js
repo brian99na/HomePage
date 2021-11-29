@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import './App.css';
-import { AiOutlinePlusSquare } from 'react-icons/ai';
+import { AiOutlineConsoleSql, AiOutlinePlusSquare } from 'react-icons/ai';
+import { RiSettings4Line } from 'react-icons/ri';
 require('dotenv').config();
 
 function App() {
@@ -17,10 +18,13 @@ function App() {
   const [quote, setQuote] = useState([])
   const [modal, setModal] = useState(false)
   const [modalValue, setModalValue] = useState({site: '', name: ''})
+  const [localStorageArr, setLocalStorageArr] = useState([])
+  const [showSettings, setShowSettings] = useState(false)
 
   const weatherObject = { 2: "11", 3: "09", 5: "10", 6: "13", 7: "50", 8: "01" }
   const five = { 0: "10", 1: "13", 2: "09", 3: "09" }
   const eight = { 1: "02", 2: "03", 3: "04", 4: "04" }
+
 
   const weatherApiCall = () => {
     fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${userCoordinates.lat}&lon=${userCoordinates.long}&appid=${process.env.REACT_APP_WEATHER_KEY}&units=imperial`)
@@ -78,16 +82,16 @@ function App() {
   }
 
   const localDataCreate = () => {
-    if (localStorage.getItem('data') == null) {
-      localStorage.setItem('data', [])
-    } 
-    let prevData = JSON.parse(localStorage.getItem('data'))
-    console.log(prevData)
-    let stringifyValues = JSON.stringify(modalValue)
-    prevData.push(stringifyValues)
-    console.log(prevData)
-
-    localStorage.setItem('data', JSON.stringify(prevData))
+    let prevData = JSON.parse(localStorage.getItem('linkArr'));
+    if (prevData === null) {
+      prevData = []
+    }
+    let linkObject = {...modalValue}
+    if (prevData.length <= 5) {
+      prevData.push(linkObject)
+    }
+    setLocalStorageArr(prevData)
+    localStorage.setItem('linkArr', JSON.stringify(prevData))
   }
 
   const handleModal = () => {
@@ -97,11 +101,27 @@ function App() {
   const handleModalSubmit = (e) => {
     e.preventDefault();
     localDataCreate();
-    setModalValue({site: '', name: ''});
+    setModal(!modal);
   }
 
   const modalChange = (e) => {
     setModalValue({...modalValue, [e.target.name]: e.target.value})
+  }
+
+  const linkHover = (e) => {
+    setShowSettings(!showSettings)
+    if (e.target.children[2]) {
+      e.target.children[2].classList.value = 'linkSettings'
+      console.log(e.target.children[2].classList.value)
+    }
+  }
+
+  const linkLeave = (e) => {
+    setShowSettings(!showSettings)
+    if (e.target.children[2]) {
+      e.target.children[2].classList.value = 'invisible'
+      console.log(e.target.children[2].classList.value)
+    }
   }
 
   useEffect(() => {
@@ -115,6 +135,7 @@ function App() {
     setDimensions()
     quoteApiCall()
     document.title = "Welcome!"
+    setLocalStorageArr(JSON.parse(localStorage.getItem('linkArr')))
   }, [])
 
   useEffect(() => {
@@ -156,10 +177,6 @@ function App() {
     return () => clearInterval(interval)
   }, [])
 
-  console.log(weatherData)
-  console.log(unsplash.data)
-
-
   const weatherLink = weatherData && `https://www.google.com/search?q=${weatherData.name}+weather`
 
   const weatherJsx = (weatherData && weatherIcon && weatherData.main) &&
@@ -180,8 +197,6 @@ function App() {
     </a>
   </div>
 
-  console.log(modalValue)
-
   const modalJsx = 
   <div className='modalUpper'>
     <div onClick={handleModal} className='modal-overlay'></div>
@@ -199,11 +214,18 @@ function App() {
     </div>
   </div>
 
-  console.log(localStorage.getItem('data'))
+  const linkArrayJsx = localStorageArr.map((item, index) => {
+    let siteIcon = `https://www.google.com/s2/favicons?sz=64&domain_url=${item.site}`
+    return(
+      <a onMouseEnter={linkHover} onMouseLeave={linkLeave} className='linksMain' key={item.name + index} href={item.site} target='_blank' rel='noreferrer'>
+        <img src={siteIcon} alt=''/>
+        <h1>{item.name}</h1>
+        <RiSettings4Line className='invisible'/>
+      </a>
+    )
+  })
 
-  // const linkArrayJsx = (localStorage.getItem('data') !== null) && localStorage.getItem('data').map(item)
-
-  const titleBackColor = (title === 'Good night') ? 'rgb(29, 38, 53)' : null
+  const titleBackColor = (title === 'Good night') ? 'rgb(29, 38, 53)' : 'rgba(241, 218, 153)'
 
   return (
     <div style={{ backgroundImage: `url(${unsplash.url})` }} className="App">
@@ -217,7 +239,8 @@ function App() {
       <div className='quoteUpper'>
         {unsplashJsx}
         <div className='siteDiv'>
-          <AiOutlinePlusSquare onClick={handleModal} className='modalAddBtn' />
+          {(linkArrayJsx.length <= 5) && <AiOutlinePlusSquare onClick={handleModal} className='modalAddBtn' />}
+          {linkArrayJsx}
         </div>
       </div>
       {modal && modalJsx}
