@@ -292,7 +292,7 @@ function App() {
       <div className='quoteUpper'>
         {unsplashJsx}
         <div className='siteDiv'>
-          <AiOutlinePlusSquare onClick={handleModal} className={localStorageArr.length < 6 ? 'modalAddBtn' : 'invisible'} />
+          <AiOutlinePlusSquare onClick={handleModal} className={`modalAddBtn ${localStorageArr && localStorageArr.length >= 6 ? 'invisible' : null}`} />
           {linkArrayJsx}
         </div>
       </div>
