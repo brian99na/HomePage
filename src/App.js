@@ -17,14 +17,17 @@ function App() {
   const [timeConvert, setTimeConvert] = useState('')
   const [quote, setQuote] = useState([])
   const [modal, setModal] = useState(false)
-  const [modalValue, setModalValue] = useState({site: '', name: ''})
+  const [editModal, setEditModal] = useState(false)
+  const [modalValue, setModalValue] = useState({site: 'https://www.', name: ''})
   const [localStorageArr, setLocalStorageArr] = useState([])
   const [showSettings, setShowSettings] = useState(false)
+  const [modalIndexActive, setModalIndexActive] = useState(0)
 
   const weatherObject = { 2: "11", 3: "09", 5: "10", 6: "13", 7: "50", 8: "01" }
   const five = { 0: "10", 1: "13", 2: "09", 3: "09" }
   const eight = { 1: "02", 2: "03", 3: "04", 4: "04" }
 
+// API's and Loading Functions
 
   const weatherApiCall = () => {
     fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${userCoordinates.lat}&lon=${userCoordinates.long}&appid=${process.env.REACT_APP_WEATHER_KEY}&units=imperial`)
@@ -74,6 +77,8 @@ function App() {
     }
   }
 
+// LocalStorage Functions
+
   const localDataCreate = () => {
     let prevData = JSON.parse(localStorage.getItem('linkArr'));
     if (prevData === null) {
@@ -87,6 +92,22 @@ function App() {
     localStorage.setItem('linkArr', JSON.stringify(prevData))
   }
 
+  const localDataDelete = () => {
+    let prevData = JSON.parse(localStorage.getItem('linkArr'));
+    prevData.splice(modalIndexActive, 1)
+    setLocalStorageArr(prevData)
+    localStorage.setItem('linkArr', JSON.stringify(prevData))
+  }
+
+  const localDataSave = () => {
+    let prevData = JSON.parse(localStorage.getItem('linkArr'));
+    prevData[modalIndexActive] = modalValue
+    setLocalStorageArr(prevData)
+    localStorage.setItem('linkArr', JSON.stringify(prevData))
+  }
+
+// Modal and Bottom Link Functions
+
   const handleModal = () => {
     setModal(!modal)
   }
@@ -95,6 +116,7 @@ function App() {
     e.preventDefault();
     localDataCreate();
     setModal(!modal);
+    setModalValue({site: 'https://www.', name: ''})
   }
 
   const modalChange = (e) => {
@@ -116,6 +138,26 @@ function App() {
       console.log(e.target.children[2].classList.value)
     }
   }
+
+  const handleGearClick = (e, index) => {
+    setEditModal(!editModal)
+    setModalValue(localStorageArr[index])
+    setModalIndexActive(index)
+  }
+
+  const handleDeleteClick = () => {
+    localDataDelete()
+    setEditModal(!editModal)
+    setModalValue({site: 'https://www.', name: ''})
+  }
+
+  const handleSaveClick = () => {
+    localDataSave()
+    setEditModal(!editModal)
+    setModalValue({site: 'https://www.', name: ''})
+  }
+
+// UseEffects
 
   useEffect(() => {
     if ("geolocation" in navigator) {
@@ -169,6 +211,8 @@ function App() {
     return () => clearInterval(interval)
   }, [])
 
+// JSX
+
   const weatherLink = weatherData && `https://www.google.com/search?q=${weatherData.name}+weather`
 
   const weatherJsx = (weatherData && weatherIcon && weatherData.main) &&
@@ -206,14 +250,31 @@ function App() {
     </div>
   </div>
 
+  const modalEditJsx = 
+  <div className='modalUpper'>
+    <div onClick={handleSaveClick} className='modal-overlay'></div>
+    <div className='modalMain'>
+      <form onSubmit={handleSaveClick}>
+        <h1>Add a link to your favorite site</h1>
+        <input onChange={modalChange} value={modalValue.site} name='site' className='modalSiteInput' placeholder='ex. https://www.youtube.com/'/>
+        <h1>Shortcut name</h1>
+        <input onChange={modalChange} value={modalValue.name} name='name' className='modalNameInput' placeholder='ex. Google Docs'/>
+        <div className='buttonsDiv'>
+          <button type='submit'>Save</button>
+          <button className='removeBtn' onClick={handleDeleteClick}>Remove</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
   const linkArrayJsx = localStorageArr && localStorageArr.map((item, index) => {
     let siteIcon = `https://www.google.com/s2/favicons?sz=64&domain_url=${item.site}`
     return(
-      <a onMouseEnter={linkHover} onMouseLeave={linkLeave} className='linksMain' key={item.name + index} href={item.site} target='_blank' rel='noreferrer'>
-        <img src={siteIcon} alt=''/>
-        <h1>{item.name}</h1>
-        <RiSettings4Line className='invisible'/>
-      </a>
+      <div onMouseEnter={linkHover} onMouseLeave={linkLeave} className='linksMain' key={item.name + index}>
+        <a href={item.site} target='_blank' rel='noreferrer'><img src={siteIcon} alt=''/></a>
+        <h1 className='linkName'>{item.name}</h1>
+        <RiSettings4Line onClick={(e) => handleGearClick(e, index)} className='invisible'/>
+      </div>
     )
   })
 
@@ -231,11 +292,12 @@ function App() {
       <div className='quoteUpper'>
         {unsplashJsx}
         <div className='siteDiv'>
-          <AiOutlinePlusSquare onClick={handleModal} className='modalAddBtn' />
+          <AiOutlinePlusSquare onClick={handleModal} className={localStorageArr.length < 6 ? 'modalAddBtn' : 'invisible'} />
           {linkArrayJsx}
         </div>
       </div>
       {modal && modalJsx}
+      {editModal && modalEditJsx}
     </div>
   );
 }

@@ -69,3 +69,22 @@ https://api.unsplash.com/
     },
 }
 ```
+
+#LocalStorage
+
+LocalStorage was awesome to work with because I had just finished up a fullstack web application using mongoDB. I noticed some similarities right away like parsing the JSON into an object and doing the reverse when sending it back, as well as the methods used when retrieving and setting data. 
+
+```
+const localDataCreate = () => {
+    let prevData = JSON.parse(localStorage.getItem('linkArr'));
+    if (prevData === null) {
+      prevData = []
+    }
+    let linkObject = {...modalValue}
+    if (prevData.length <= 5) {
+      prevData.push(linkObject)
+    }
+    setLocalStorageArr(prevData)
+    localStorage.setItem('linkArr', JSON.stringify(prevData))
+  }
+```
