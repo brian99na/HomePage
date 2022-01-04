@@ -1,9 +1,9 @@
-#About
+# About
 
 This is a small project that I created to get more practice with API calls. 
 It was originally intended to use three different API's for weather, background image, and random quotes, but I decided to change the quote out for shortcut links using localStorage. It is very reminiscent of the new tab page for Google Chrome. This project is built using React.
 
-#APIs
+# APIs
 
 Here is some important data I received back from these APIs
 
@@ -70,7 +70,7 @@ https://api.unsplash.com/
 }
 ```
 
-#LocalStorage
+# LocalStorage
 
 LocalStorage was awesome to work with because I had just finished up a fullstack web application using mongoDB. I noticed some similarities right away like parsing the JSON into an object and doing the reverse when sending it back, as well as the methods used when retrieving and setting data. 
 
